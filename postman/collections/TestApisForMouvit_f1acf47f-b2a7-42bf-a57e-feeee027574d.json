@@ -1,0 +1,820 @@
+{
+    "info": {
+        "_postman_id": "7eab8fd2-546f-44ba-ac0f-8a6bf2a5d5fc",
+        "name": "TestApisForMouvit",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Login",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "a8426f2c-e2af-444e-ae56-0e6e31d39edb",
+                        "exec": [
+                            "pm.test('login test',function(){\r",
+                            "    console.log(pm.response.json())\r",
+                            "    pm.collectionVariables.set('token',pm.response.json().token)\r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "a0a07766-eb96-4c9d-93e4-d9eb7271c814",
+                        "exec": [
+                            "console.log(pm.collectionVariables.get('username'))\r",
+                            "console.log(pm.collectionVariables.get('password'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "d4c88b33-f746-40fe-b35f-bf19b03280c8",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\":\"vageesh\",\n    \"password\":\"welcome@123\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/login",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "login"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Remote Operator",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "3cd02a98-654f-487f-99d7-d9958b02eea2",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"first_name\":  pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"middle_name\": \"\",\r",
+                            "    \"last_name\": pm.variables.replaceIn('{{$randomLastName}}'),\r",
+                            "    \"email\":pm.variables.replaceIn('{{$randomLastName}}')+\"@gmail.com\",\r",
+                            "    \"phone_number\": pm.variables.replaceIn('{{$randomPhoneNumber}}'), \r",
+                            "    \"date_joined\": pm.variables.replaceIn('{{$isoTimestamp}}'),\r",
+                            "    \"mac_id\": pm.variables.replaceIn('{{$randomBitcoin}}'),\r",
+                            "    \"address1\": pm.variables.replaceIn('{{$randomStreetName}}'),\r",
+                            "    \"address2\": pm.variables.replaceIn('{{$randomStreetAddress}}') ,\r",
+                            "    \"city\": pm.variables.replaceIn('{{$randomCity}}'),\r",
+                            "    \"state\": pm.variables.replaceIn('{{$randomCountry}}'),\r",
+                            "    \"country\": pm.variables.replaceIn('{{$randomCountry}}') ,\r",
+                            "    \"code\": pm.variables.replaceIn('{{$randomCountryCode}}')\r",
+                            "}\r",
+                            "\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "cc932bc0-666c-46b7-b0b7-63c31be47f84",
+                        "exec": [
+                            "pm.test('Remote Operator Creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "647294c1-a1dc-4c16-9d06-b961caa7e73d",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/remote-operator/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "remote-operator",
+                        "create"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Service Provider",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "ad2015cf-49f7-4e4b-9cfc-fbda09035254",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"service_provider_name\" : pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"first_name\":pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"middle_name\": \"\", \r",
+                            "    \"last_name\":pm.variables.replaceIn('{{$randomLastName}}'),\r",
+                            "    \"address\":pm.variables.replaceIn('{{$randomStreetAddress}}'),\r",
+                            "    \"email\":pm.variables.replaceIn('{{$randomFirstName}}')+\"@gmail.com\",\r",
+                            "    \"phone_number\":pm.variables.replaceIn('{{$randomPhoneNumber}}'),\r",
+                            "    \"date_joined\": pm.variables.replaceIn('{{$isoTimestamp}}'),\r",
+                            "    \"application_used\": pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"country\":pm.variables.replaceIn('{{$randomCountry}}'),\r",
+                            "    \"state\":pm.variables.replaceIn('{{$randomCity}}'),\r",
+                            "    \"region\":pm.variables.replaceIn('{{$randomCountryCode}}'),\r",
+                            "    \"code\":pm.variables.replaceIn('{{$randomCountry}}'),\r",
+                            "    \"address1\" : pm.variables.replaceIn('{{$randomStreetAddress}}')\r",
+                            "}\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "6ec05f27-aaa3-4b30-bf92-3a334994bccc",
+                        "exec": [
+                            "pm.test('Service Provider Creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "21da694d-0eea-41a9-ae1c-8ee0b4fc1ac6",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/service-provider/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "service-provider",
+                        "create"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Bot",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "0789a493-7a0a-4f0b-9469-46e3e7400b0c",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"bot_id\":pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"associated_application\":pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"associated_service_provider\":pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"deployed_country\":pm.variables.replaceIn('{{$randomCountry}}'),\r",
+                            "    \"deployed_state\":pm.variables.replaceIn('{{$randomCity}}'),\r",
+                            "    \"area_of_service\":pm.variables.replaceIn('{{$randomCity}}'),\r",
+                            "    \"deployed_date\":pm.variables.replaceIn('{{$isoTimestamp}}'),\r",
+                            "    \"ip_address\":pm.variables.replaceIn('{{$randomIP}}')\r",
+                            "}\r",
+                            "\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "ac807ee4-b260-4214-aaab-06dea369a359",
+                        "exec": [
+                            "pm.test('Bot Creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        pm.collectionVariables.set('bot_id',pm.response.json().bot_id)\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "e19d5d9e-1323-4d7a-9c5f-4f930ae2a97b",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/bot/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "bot",
+                        "create"
+                    ],
+                    "query": [
+                        {
+                            "key": "",
+                            "value": "123",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "some",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "xyz",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "Canada",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "US",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "qwe",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "20",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "121654",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "123",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "23",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "111",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "123",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "123",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "855",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "5",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "5",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "6",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "53",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "55",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "25",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "66",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "78",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "66",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "996",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "33",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "vvv",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "66",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "78",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "63",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "66",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "77",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "66",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "99",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "33",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "88",
+                            "disabled": true
+                        },
+                        {
+                            "key": "",
+                            "value": "33",
+                            "disabled": true
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Application",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "626ca8a2-e65d-475c-9c74-712475da59ca",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"app_id\": pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"battery_cutoff_limit_1\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"battery_cutoff_limit_2\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"bot_microphone_enable_disable\":pm.variables.replaceIn('{{$randomBoolean}}'),\r",
+                            "    \"bot_speaker_volume\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"csi_fps\":pm.variables.replaceIn('{{$randomInt}}') ,\r",
+                            "    \"csi_resolution\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"dba4_Lift_motor_deadband\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "}\r",
+                            "\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "d93f1cc2-c190-447b-b89d-d6498004f5e5",
+                        "exec": [
+                            "pm.test('Application Creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "90fbeaff-06ca-4099-9bc4-94a62997704e",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/apps/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "apps",
+                        "create"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Product",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "e7f3856f-6e63-4c80-897a-09d81509d5c7",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"product_id\":null,\r",
+                            "    \"product_name\":pm.variables.replaceIn('{{$randomFirstName}}') ,\r",
+                            "    \"type_of_product\": pm.variables.replaceIn('{{$randomFirstName}}'),\r",
+                            "    \"flavour_variation\":pm.variables.replaceIn('{{$randomFirstName}}') ,\r",
+                            "    \"volume\": pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"package_type\":pm.variables.replaceIn('{{$randomFirstName}}') ,\r",
+                            "    \"price\":pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"tax\":pm.variables.replaceIn('{{$randomInt}}'),\r",
+                            "    \"delivery\":pm.variables.replaceIn('{{$randomInt}}')\r",
+                            "}\r",
+                            "\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "6da657af-cba1-410d-a067-2ad86f5c5de8",
+                        "exec": [
+                            "pm.test('product creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})\r",
+                            "\r",
+                            ""
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "ee234075-5e7d-43ad-b55d-f70695fa897f",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/products/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "products",
+                        "create"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Inventory",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "b5553ee0-a74b-48f9-8684-33cbb158d4d7",
+                        "exec": [
+                            "let body = {\r",
+                            "    \"bot_id\":pm.collectionVariables.get('bot_id'),\r",
+                            "    \"trays\":[\r",
+                            "                {\r",
+                            "                    \"product_id\":\"10\",\r",
+                            "                    \"product_name\":\"Minute Maid\",\r",
+                            "                    \"quantity\":1,\r",
+                            "                    \"tray\":\"Tray 1\"\r",
+                            "                },\r",
+                            "                {\r",
+                            "                    \"product_id\":\"11\",\r",
+                            "                    \"product_name\":\"Red Bull\",\r",
+                            "                    \"quantity\":4,\r",
+                            "                    \"tray\":\"Tray 2\"\r",
+                            "                },\r",
+                            "                {\r",
+                            "                    \"product_id\":\"12\",\r",
+                            "                    \"product_name\":\"Sprite Soda\",\r",
+                            "                    \"quantity\":6,\r",
+                            "                    \"tray\":\"Tray 3\"\r",
+                            "                }\r",
+                            "    ]\r",
+                            "}\r",
+                            "\r",
+                            "pm.collectionVariables.set('body_params',JSON.stringify(body))\r",
+                            "console.log(pm.collectionVariables.get('body_params'))"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "896a3743-ac13-4022-a20e-a4a3fdea58d1",
+                        "exec": [
+                            "pm.test('Inventory Creation',function(){\r",
+                            "    if(pm.response.to.have.status(200)){\r",
+                            "        console.log('Test Passed')\r",
+                            "    } \r",
+                            "})"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "1c6e9d3a-6c10-4cb3-ae33-288141c3c531",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{{body_params}}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://54.221.108.130:4000/mouvit/inventory/create",
+                    "protocol": "http",
+                    "host": [
+                        "54",
+                        "221",
+                        "108",
+                        "130"
+                    ],
+                    "port": "4000",
+                    "path": [
+                        "mouvit",
+                        "inventory",
+                        "create"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "e2e9b051-eab2-43f0-9204-7c3f147e3822",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "71257882-35b3-4adb-921c-eea6ed5f5162",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "id": "20686e8a-6048-439e-9f90-0576193feb6d",
+            "key": "token",
+            "value": ""
+        },
+        {
+            "id": "65e0e5bf-7081-4d34-b460-8817d0cfb753",
+            "key": "body_params",
+            "value": ""
+        },
+        {
+            "id": "e48b807b-d137-403c-bec5-d2414c95dec1",
+            "key": "username",
+            "value": ""
+        },
+        {
+            "id": "1392f0f8-0566-4b37-9e68-e262716926e2",
+            "key": "password",
+            "value": ""
+        },
+        {
+            "id": "46e80584-083f-4fb7-87db-c9b0ec81f67e",
+            "key": "Url",
+            "value": ""
+        },
+        {
+            "id": "10aa5ed5-c441-42a5-8a61-d2b74b56f84f",
+            "key": "bot_id",
+            "value": ""
+        }
+    ]
+}
