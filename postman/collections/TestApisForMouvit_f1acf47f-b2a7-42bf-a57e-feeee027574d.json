@@ -681,7 +681,7 @@
                             "    \"trays\":[\r",
                             "                {\r",
                             "                    \"product_id\":\"10\",\r",
-                            "                    \"product_name\":\"Minute Maid\",\r",
+                            "                    \"product_name\":\"Minute\",\r",
                             "                    \"quantity\":1,\r",
                             "                    \"tray\":\"Tray 1\"\r",
                             "                },\r",
@@ -787,32 +787,32 @@
     ],
     "variable": [
         {
-            "id": "20686e8a-6048-439e-9f90-0576193feb6d",
+            "id": "8026444d-67e3-4730-b783-57617bf8351b",
             "key": "token",
             "value": ""
         },
         {
-            "id": "65e0e5bf-7081-4d34-b460-8817d0cfb753",
+            "id": "69d4ea6e-51f4-44f7-9547-a57a95b4a45e",
             "key": "body_params",
             "value": ""
         },
         {
-            "id": "e48b807b-d137-403c-bec5-d2414c95dec1",
+            "id": "5b0ab642-aafa-4dd4-8478-d4fc9ccb7b25",
             "key": "username",
             "value": ""
         },
         {
-            "id": "1392f0f8-0566-4b37-9e68-e262716926e2",
+            "id": "f87d0766-7419-47bd-be22-b2a9fb10c93a",
             "key": "password",
             "value": ""
         },
         {
-            "id": "46e80584-083f-4fb7-87db-c9b0ec81f67e",
+            "id": "1eb0be84-2cf8-4dbe-86d0-4e276dd3eb22",
             "key": "Url",
             "value": ""
         },
         {
-            "id": "10aa5ed5-c441-42a5-8a61-d2b74b56f84f",
+            "id": "a750dc53-6e2d-412e-aef0-95b4b0eb4f9b",
             "key": "bot_id",
             "value": ""
         }
